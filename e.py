@@ -78,26 +78,7 @@ def log_command(user_id, target, port, time):
     with open(LOG_FILE, "a") as file:  # Open in "append" mode
         file.write(f"Username: {username}\nTarget: {target}\nPort: {port}\nTime: {time}\n\n")
 
-@bot.message_handler(commands=['add'])
-def add_user(message):
-    user_id = str(message.chat.id)
-    if user_id in admin_id:
-        command = message.text.split()
-        if len(command) > 1:
-            user_to_add = command[1]
-            if user_to_add not in allowed_user_ids:
-                allowed_user_ids.add(user_to_add)  # Change list to set for better performance
-                with open(USER_FILE, "a") as file:
-                    file.write(f"{user_to_add}\n")
-                response = f"User {user_to_add} Added Successfully 👍."
-            else:
-                response = "User already exists 🤦‍♂️."
-        else:
-            response = "Please specify a user ID to add 😒."
-    else:
-        response = "ONLY OWNER CAN USE."
 
-    bot.reply_to(message, response)
 
     # /reset_TF Command
 @bot.message_handler(commands=['reset_TF'])
@@ -124,29 +105,7 @@ def reset_attack_limit(message):
     )
     bot.reply_to(message, response, parse_mode="Markdown", disable_web_page_preview=True)
 
-@bot.message_handler(commands=['remove'])
-def remove_user(message):
-    user_id = str(message.chat.id)  # Get the user ID who sent the message
-    if user_id in admin_id:  # Check if the user is an admin (owner)
-        command = message.text.split()  # Split the message to extract the user ID to remove
-        if len(command) > 1:  # Check if a user ID is provided
-            user_to_remove = command[1]  # The user ID to be removed
-            if user_to_remove in allowed_user_ids:  # Check if the user ID is in the allowed users list
-                allowed_user_ids.remove(user_to_remove)  # Remove the user from the list
-                # Rewrite the allowed users to the file
-                with open(USER_FILE, "w") as file:
-                    for user_id in allowed_user_ids:
-                        file.write(f"{user_id}\n")
-                response = f"User {user_to_remove} removed successfully 👍."  # Success message
-            else:
-                response = f"User {user_to_remove} not found in the list."  # If the user isn't in the list
-        else:
-            response = '''Please Specify A User ID to Remove. 
-✅ Usage: /remove <userid>'''  # If no user ID is provided
-    else:
-        response = "ONLY OWNER CAN USE."  # If the message sender is not an admin
 
-    bot.reply_to(message, response)  # Send the response message back to the admin
 
 @bot.message_handler(commands=['start'])
 def welcome_start(message):
@@ -187,8 +146,8 @@ def verify_user(message):
     except Exception:
         bot.send_message(
             message.chat.id,
-            f"⚠️ *𝗘𝗿𝗿𝗼𝗿 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗬𝗼𝘂𝗿 𝗠𝗲𝗺𝗯𝗲𝗿𝘀𝗵𝗶𝗽!* ⚠️\n\n"
-            f"📌 𝗠𝗮𝗸𝗲 𝘀𝘂𝗿𝗲 𝘆𝗼𝘂 𝗵𝗮𝘃𝗲 𝗷𝗼𝗶𝗻𝗲𝗱: [Click Here]({PRIVATE_CHANNEL_LINK})",
+            f"⚠️ *𝗘𝗿𝗿𝗼𝗿 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 �𝗿 𝗠𝗲𝗺𝗯𝗲𝗿𝘀𝗵𝗶𝗽!* ⚠️\n\n"
+            f"📌 𝗠𝗮𝗸𝗲 𝘀𝘂𝗿𝗲 � 𝗵𝗮𝘃𝗲 𝗷𝗼𝗶𝗻𝗲𝗱: [Click Here]({PRIVATE_CHANNEL_LINK})",
             parse_mode="Markdown"
         )
     # /help Command - Stylish Help Menu
